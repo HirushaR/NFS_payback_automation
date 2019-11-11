@@ -3,6 +3,14 @@ from PIL import ImageGrab
 import cv2
 import time
 
+def process_img(original_image):
+    #covert original image to gray
+    processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+    processed_img = cv2.Canny(processed_img, threshold1=200, threshold2=300)
+    return processed_img
+
+
+
 last_time = time.time()
 while(True):
     screen = np.array(ImageGrab.grab(bbox=(0, 40, 800, 1000)))
