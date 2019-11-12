@@ -24,8 +24,10 @@ def process_img(original_image):
     # covert original image to gray
     processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
     processed_img = cv2.Canny(processed_img, threshold1=250, threshold2=150)
+
+    processed_img = cv2.GaussianBlur(processed_img, (5, 5), 0)
     # shape of the road we want to identify i put a image later
-    vertices = np.array([[10, 500], [10, 300], [300, 200], [500, 200], [800, 300], [800,500]])
+    vertices = np.array([[10, 500], [10, 300], [300, 300], [500, 300], [800, 300], [800,500]])
     processed_img = roi(processed_img, [vertices])
 
     #                         edges                         minimumlenght, maximum length
@@ -33,9 +35,9 @@ def process_img(original_image):
     draw_line(processed_img, lines)
     return processed_img
 
-for i in list(range(4))[::-1]:
-    print(i+1)
-    time.sleep(1)
+# for i in list(range(4))[::-1]:
+#     print(i+1)
+#     time.sleep(1)
 
 # get the time
 last_time = time.time()
