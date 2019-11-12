@@ -5,13 +5,20 @@ import time
 import pyautogui
 from key_direct import PressKey, W , A, S, D, ReleaseKey
 
+def draw_line(img, lines):
+    try:
+        for line in lines:
+            coords = line[0]
+            cv2.line(img, (coords[0], coords[1]), (coords[2], coords[3]), [255, 255, 255], 3)
+    except:
+        pass
+
 def roi(img, vertices):
     # shape convert to zeros
     mask = np.zeros_like(img)
     cv2.fillPoly(mask, vertices, 255)
     masked = cv2.bitwise_and(img, mask)
     return masked
-
 
 def process_img(original_image):
     # covert original image to gray
@@ -23,7 +30,7 @@ def process_img(original_image):
 
     #                         edges                         minimumlenght, maximum length
     lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 20, 15)
-    draw_line(processed_img, line)
+    draw_line(processed_img, lines)
     return processed_img
 
 for i in list(range(4))[::-1]:
