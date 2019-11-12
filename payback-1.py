@@ -2,6 +2,7 @@ import numpy as np
 from PIL import ImageGrab
 import cv2
 import time
+import pyautogui
 from key_direct import PressKey, W , A, S, D, ReleaseKey
 
 def roi(img, vertices):
@@ -19,6 +20,10 @@ def process_img(original_image):
     # shape of the road we want to identify i put a image later
     vertices = np.array([[10, 500], [10, 300], [300, 200], [500, 200], [800, 300], [800,500]])
     processed_img = roi(processed_img, [vertices])
+
+    #                         edges                         minimumlenght, maximum length
+    lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 20, 15)
+    draw_line(processed_img, line)
     return processed_img
 
 for i in list(range(4))[::-1]:
