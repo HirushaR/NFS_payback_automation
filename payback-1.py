@@ -119,14 +119,14 @@ def process_img(image):
 
     processed_img = cv2.GaussianBlur(processed_img, (5, 5), 0)
 
-    vertices = np.array([[10, 500], [10, 300], [300, 200], [500, 200], [800, 300], [800, 500],
+    vertices = np.array([[10, 500], [10, 300], [300, 250], [500, 250], [800, 300], [800, 500],
                          ], np.int32)
 
     processed_img = roi(processed_img, [vertices])
 
     # more info: http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     #                                     rho   theta   thresh  min length, max gap:
-    lines = cv2.HoughLinesP(processed_img, 1, np.pi / 180, 180,np.array([]), 30, 15)
+    lines = cv2.HoughLinesP(processed_img, 1, np.pi / 180, 180,np.array([]), 100, 15)
     try:
         l1, l2 = draw_lanes(original_image, lines)
         cv2.line(original_image, (l1[0], l1[1]), (l1[2], l1[3]), [0, 255, 0], 30)
