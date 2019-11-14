@@ -5,8 +5,12 @@ import cv2
 import time
 
 def make_coordinates(image, line_parameters):
-    print()
-
+    slope,  intercept = line_parameters
+    y1 = image.shape[0]
+    y2 = int(y1*(3/5))
+    x1 = int((y1- intercept)/slope)
+    x2 = int((y2 - intercept) / slope)
+    return np.array([x1, y1, x2, y2])
 def avarage_slope_intercept(image, lines):
     left_fit = []
     right_fit = []
@@ -22,8 +26,9 @@ def avarage_slope_intercept(image, lines):
                 right_fit.append((slope, interceprt))
         left_fit_avg = np.average(left_fit, axis=0)
         right_fit_avg = np.average(right_fit, axis=0)
-        print(left_fit_avg, 'left')
-        print(right_fit_avg, 'right')
+        left_line = make_coordinates(image, left_fit_avg)
+        right_line = make_coordinates(image, right_fit_avg)
+        return np.array([left_line, right_line])
     except:
         pass
 
@@ -42,7 +47,7 @@ def display_line(image, lines):
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line.reshape(4)
-            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 10)
+            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 1)
     return  line_image
 
 
@@ -74,8 +79,8 @@ while(True):
     canny_screen = canny(screen)
     rio_screen = region_of_interest(canny_screen)
     lines = cv2.HoughLinesP(rio_screen, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
-    avaraged_line = avarage_slope_intercept(screen, lines)
-    line_screen = display_line(screen, lines)
+    averaged_line = avarage_slope_intercept(screen, lines)
+    line_screen = display_line(screen, averaged_line)
     combo_screen = cv2.addWeighted(screen, 0.8, line_screen, 1, 1)
 
     #cv2.imshow('window', screen)
