@@ -154,16 +154,19 @@ def straight():
     PressKey(W)
     ReleaseKey(A)
     ReleaseKey(D)
+    #ReleaseKey(W)
 
 def left():
     PressKey(A)
     ReleaseKey(W)
     ReleaseKey(D)
+    ReleaseKey(A)
 
 def right():
     PressKey(D)
     ReleaseKey(A)
     ReleaseKey(W)
+    ReleaseKey(D)
 
 def slow_ya_roll():
     ReleaseKey(W)
@@ -181,7 +184,7 @@ while True:
     print('Frame took {} seconds'.format(time.time() - last_time))
     last_time = time.time()
     new_screen, original_image, m1, m2 = process_img(screen)
-    cv2.imshow('window', new_screen)
+    #cv2.imshow('window', new_screen)
     cv2.imshow('window2', cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
     # cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
     #
