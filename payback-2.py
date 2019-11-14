@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import ImageGrab
 import matplotlib.pyplot as plt
+import math
 import cv2
 import time
 from statistics import mean
@@ -11,9 +12,11 @@ def make_coordinates(image, line_parameters):
     slope,  intercept = line_parameters
     y1 = image.shape[0]
     y2 = int(y1*(3/5))
-    x1 = int((y1- intercept)/slope)
+    x1 = int((y1 - intercept)/slope)
     x2 = int((y2 - intercept) / slope)
     return np.array([x1, y1, x2, y2])
+
+
 def avarage_slope_intercept(image, lines):
     left_fit = []
     right_fit = []
@@ -27,11 +30,16 @@ def avarage_slope_intercept(image, lines):
                 left_fit.append((slope, interceprt))
             else:
                 right_fit.append((slope, interceprt))
+
         left_fit_avg = np.average(left_fit, axis=0)
         right_fit_avg = np.average(right_fit, axis=0)
+
+
         left_line = make_coordinates(image, left_fit_avg)
         right_line = make_coordinates(image, right_fit_avg)
         return np.array([left_line, right_line])
+
+
     except:
         pass
 
@@ -50,7 +58,9 @@ def display_line(image, lines):
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line.reshape(4)
-            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0))
+            cords1 = (x1, y1)
+            cords2 = (x2, y2)
+            cv2.line(line_image, cords1, cords2, (255, 0, 0), thickness=10)
     return line_image
 
 
