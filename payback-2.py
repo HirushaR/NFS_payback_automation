@@ -3,6 +3,9 @@ from PIL import ImageGrab
 import matplotlib.pyplot as plt
 import cv2
 import time
+from statistics import mean
+from numpy import ones, vstack
+from numpy.linalg import lstsq
 
 def make_coordinates(image, line_parameters):
     slope,  intercept = line_parameters
@@ -43,12 +46,14 @@ def canny(image):
     return canny_image
 
 def display_line(image, lines):
-    line_image = np.zeros_like(image)
+    line_image = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.uint8)
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line.reshape(4)
-            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 1)
-    return  line_image
+            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0))
+    return line_image
+
+
 
 
 def region_of_interest(image):
@@ -81,7 +86,7 @@ while(True):
     lines = cv2.HoughLinesP(rio_screen, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
     averaged_line = avarage_slope_intercept(screen, lines)
     line_screen = display_line(screen, averaged_line)
-    combo_screen = cv2.addWeighted(screen, 0.8, line_screen, 1, 1)
+    combo_screen = cv2.addWeighted(screen, 0.8, line_screen, 1, gamma=1)
 
     #cv2.imshow('window', screen)
     cv2.imshow('window2', combo_screen)
