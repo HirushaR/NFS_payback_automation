@@ -4,6 +4,30 @@ import matplotlib.pyplot as plt
 import cv2
 import time
 
+def make_coordinates(image, line_parameters):
+    print()
+
+def avarage_slope_intercept(image, lines):
+    left_fit = []
+    right_fit = []
+    try:
+        for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            parameters = np.polyfit((x1, x2), (y1, y2), 1)
+            slope = parameters[0]
+            interceprt = parameters[1]
+            if slope < 0:
+                left_fit.append((slope, interceprt))
+            else:
+                right_fit.append((slope, interceprt))
+        left_fit_avg = np.average(left_fit, axis=0)
+        right_fit_avg = np.average(right_fit, axis=0)
+        print(left_fit_avg, 'left')
+        print(right_fit_avg, 'right')
+    except:
+        pass
+
+
 def canny(image):
     # convert to gray
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -50,9 +74,12 @@ while(True):
     canny_screen = canny(screen)
     rio_screen = region_of_interest(canny_screen)
     lines = cv2.HoughLinesP(rio_screen, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+    avaraged_line = avarage_slope_intercept(screen, lines)
     line_screen = display_line(screen, lines)
+    combo_screen = cv2.addWeighted(screen, 0.8, line_screen, 1, 1)
+
     #cv2.imshow('window', screen)
-    cv2.imshow('window2', line_screen)
+    cv2.imshow('window2', combo_screen)
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
         break
