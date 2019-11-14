@@ -16,8 +16,10 @@ while(True):
     gray_screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
     # blur the gray image
     blur_screen = cv2.GaussianBlur(gray_screen, (5, 5), 0)
+    # get th edge by canny function use to blue image
+    canny_screen = cv2.Canny(blur_screen, 50, 105)
     #cv2.imshow('window', screen)
-    cv2.imshow('window2', blur_screen)
+    cv2.imshow('window2', canny_screen)
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
         break
