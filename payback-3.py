@@ -19,6 +19,13 @@ def keys_to_output(keys):
 
 file_name = 'traning_data.npy'
 
+if os.path.isfile(file_name):
+    print('File exist, loading previous data!')
+    training_data = list(np.load(file_name))
+else:
+    print('File does not exist, starting data')
+    training_data = []
+
 def main():
     for i in list(range(4))[::-1]:
         print(i+1)
