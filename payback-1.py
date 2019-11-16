@@ -9,16 +9,6 @@ from key_direct import PressKey, W, A, S, D, ReleaseKey
 from statistics import mean
 from get_keys import key_check
 
-def keys_to_output(keys):
-    # [A,W,D]
-    output = [0, 0, 0]
-    if 'A' in keys:
-        output[0] = 1
-    elif 'D' in keys:
-        output[2] = 1
-    else:
-        output[1] = 1
-    return output
 
 
 
@@ -201,12 +191,12 @@ while True:
     cv2.imshow('window2', cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
     # cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
     #
-    if m1<0 and m2 <0 :
-        right()
-    elif m1>0 and m2>0:
-        left()
-    else:
-        straight()
+    # if m1<0 and m2 <0 :
+    #     right()
+    # elif m1>0 and m2>0:
+    #     left()
+    # else:
+    #     straight()
 
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()

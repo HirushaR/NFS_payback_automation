@@ -13,16 +13,16 @@ def keys_to_output(keys):
     '''
     output = [0, 0, 0]
 
-    if 'W' in keys:
-        output[1] = 1
+    if 'A' in keys:
+        output[0] = 1
     elif 'D' in keys:
         output[2] = 1
     else:
-        output[0] = 1
+        output[1] = 1
     return output
 
 
-file_name = 'training_data_1.npy'
+file_name = 'training_data.npy'
 
 if os.path.isfile(file_name):
     print('File exists, loading previous data!')
