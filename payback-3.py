@@ -3,7 +3,6 @@ import cv2
 import time
 import os
 
-from PIL import ImageGrab
 from get_keys import key_check
 from grabscreen import grab_screen
 
@@ -18,7 +17,7 @@ def keys_to_output(keys):
         output[1] = 1
     return output
 
-file_name = 'traning_data.npy'
+file_name = 'traning_data1.npy'
 
 if os.path.isfile(file_name):
     print('File exist, loading previous data!')
@@ -40,6 +39,7 @@ def main():
         keys = key_check()
         output = keys_to_output(keys)
         training_data.append([screen, output])
+        print('Frame took {} seconds'.format(time.time() - last_time))
         last_time = time.time()
 
         if len(training_data) % 500 == 0:
