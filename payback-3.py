@@ -13,16 +13,16 @@ def keys_to_output(keys):
     '''
     output = [0, 0, 0]
 
-    if 'A' in keys:
-        output[0] = 1
+    if 'W' in keys:
+        output[1] = 1
     elif 'D' in keys:
         output[2] = 1
     else:
-        output[1] = 1
+        output[0] = 1
     return output
 
 
-file_name = 'training_data.npy'
+file_name = 'training_data_1.npy'
 
 if os.path.isfile(file_name):
     print('File exists, loading previous data!')
@@ -42,7 +42,7 @@ def main():
 
         if not paused:
             # 800x600 windowed mode
-            screen = grab_screen(region=(0, 40, 800, 640))
+            screen = grab_screen(region=(0, 40, 800, 600))
             last_time = time.time()
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
             screen = cv2.resize(screen, (160, 120))
