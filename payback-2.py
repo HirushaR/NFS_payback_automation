@@ -54,14 +54,25 @@ def canny(image):
     return canny_image
 
 def display_line(image, lines):
-    line_image = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.uint8)
-    if lines is not None:
-        for line in lines:
-            x1, y1, x2, y2 = line.reshape(4)
-            cords1 = (x1, y1)
-            cords2 = (x2, y2)
-            cv2.line(line_image, cords1, cords2, (255, 0, 0), thickness=10)
-    return line_image
+    try:
+        line_image = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.uint8)
+        if lines is not None:
+            for line in lines:
+                x1, y1, x2, y2 = line.reshape(4)
+                cords1 = (x1, y1)
+                cords2 = (x2, y2)
+                cv2.line(line_image, cords1, cords2, (255, 0, 0), thickness=10)
+        return line_image
+    except:
+        line_image = np.array((image.shape[0], image.shape[1], 3), dtype=np.uint8)
+        if lines is not None:
+            for line in lines:
+                x1, y1, x2, y2 = line.reshape(4)
+                cords1 = (x1, y1)
+                cords2 = (x2, y2)
+                cv2.line(line_image, cords1, cords2, (255, 0, 0), thickness=10)
+        return line_image
+
 
 
 
@@ -84,7 +95,7 @@ def region_of_interest(image):
 
 last_time = time.time()
 while(True):
-    screen =  np.array(ImageGrab.grab(bbox=(0, 40, 800, 600)))
+    screen = np.array(ImageGrab.grab(bbox=(0, 40, 800, 600)))
     # printscreen_numpy =   np.array(printscreen_pil.getdata(),dtype='uint8')\
     # .reshape((printscreen_pil.size[1],printscreen_pil.size[0],3))
 
@@ -94,7 +105,7 @@ while(True):
     canny_screen = canny(screen)
     rio_screen = region_of_interest(canny_screen)
     lines = cv2.HoughLinesP(rio_screen, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
-    averaged_line = avarage_slope_intercept(screen, lines)
+    averaged_line = avarage_slope_intercept(rio_screen, lines)
     line_screen = display_line(screen, averaged_line)
     combo_screen = cv2.addWeighted(screen, 0.8, line_screen, 1, gamma=1)
 

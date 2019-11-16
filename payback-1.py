@@ -9,6 +9,7 @@ from key_direct import PressKey, W, A, S, D, ReleaseKey
 from statistics import mean
 
 
+
 def roi(img, vertices):
     # blank mask:
     mask = np.zeros_like(img)
@@ -126,7 +127,7 @@ def process_img(image):
 
     # more info: http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     #                                     rho   theta   thresh  min length, max gap:
-    lines = cv2.HoughLinesP(processed_img, 1, np.pi / 180, 180,np.array([]), 100, 15)
+    lines = cv2.HoughLinesP(processed_img, 2, np.pi /180, 100, np.array([]), 100, 15)
     m1 = 0
     m2 = 0
     try:
@@ -154,19 +155,19 @@ def straight():
     PressKey(W)
     ReleaseKey(A)
     ReleaseKey(D)
-    #ReleaseKey(W)
+
 
 def left():
     PressKey(A)
     ReleaseKey(W)
     ReleaseKey(D)
-    ReleaseKey(A)
+
 
 def right():
     PressKey(D)
     ReleaseKey(A)
     ReleaseKey(W)
-    ReleaseKey(D)
+
 
 def slow_ya_roll():
     ReleaseKey(W)
