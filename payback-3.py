@@ -34,5 +34,16 @@ def main():
     last_time = time.time()
     while True:
         screen = np.array(ImageGrab.grab(bbox=(0, 40, 800, 600)))
+        screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+        screen = cv2.resize(screen, (80, 60))
+        keys = key_check()
+        output = keys_to_output(keys)
+        training_data.append([screen, output])
         print('Frame took {} seconds'.format(time.time() - last_time))
         last_time = time.time()
+
+        if len(training_data) % 500 == 0:
+            print(len(training_data))
+            np.save(file_name, training_data)
+
+main()
